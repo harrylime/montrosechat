@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>montrosechat</title>
+  <script type="text/javascript">
+if (navigator.userAgent.match(/iPad/) != null) {
+  document.write('<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">');
+} else {
+  document.write('<meta name="viewport" content="width=848, shrink-to-fit=no, user-scalable=no">');
+}
+  </script>
+  <script type="text/javascript" src="http://video.montrose.is/resources/php/ip/"></script>
+  <script type="text/javascript" src="resources/js/hls/dist/hls.min.js"></script>
+  <script type="text/javascript" src="resources/js/chat.js"></script>
+  <style>
+.hide { visibility: hidden; }
+.disabled { display: none; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  font-family: Sans-Serif;
+}
+
+.videoSpacer {
+  max-height: 480px;
+  overflow: hidden;
+  background: black;
+}
+
+.aspect {
+  display: block;
+  width: 100%;
+  position: relative;
+  height: 0;
+  padding: 56.6% 0 0 0;
+  overflow: hidden;
+}
+
+@media screen and (max-height: 600px) {
+  .videoSpacer {
+    max-height: 224px;
+  }
+
+  .aspect {
+    padding: 25% 0 0 0;
+  }
+}
+
+.aspectContent {
+  position: absolute;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* margin: 0 auto 0 auto;*/
+  margin: auto;
+}
+
+.optionbarSpacer {
+  height: 32px;
+  background: #FE66BE;
+  background: linear-gradient(to right, #FE66BE, #64c7d7);
+}
+
+.optionbarSpacer img {
+  margin-left: 4px; 
+  margin-right: 4px; 
+  margin-top: 4px;
+}
+
+.bordersBenabled {
+  border: solid #808080;
+  border-width: 0px 1px 0px 0px;
+  margin: 0 20% 0 0;
+}
+
+.bordersCenabled {
+  border: solid #808080; 
+  border-width: 0px 1px 0px 0px; 
+  margin: 0px 8px 0px 0px;
+}
+
+#videoArea {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#inputArea {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: white;
+}
+
+.outerCap {
+  height: 16px;
+  overflow: hidden;
+  background: white;
+}
+
+.capDivAenabled {
+  margin-right: 18px;
+}
+
+.cap {
+  border: solid 1px #808080;
+  border-radius: 16px;
+  padding: 8px 8px 8px 8px;
+}
+
+.capAenabled {
+  margin: 8px 20% 8px 8px; 
+}
+
+.capAdisabled {
+  margin: 8px 8px 8px 8px; 
+}
+
+.upperCap {
+  margin: -26px 8px 8px -6px;
+}
+
+.lowerCap {
+  margin: -26px 8px 8px -6px;
+}
+
+.footer {
+  position: relative; 
+  top: -16px;
+}
+
+#chat:last-child {
+  padding-bottom: 2em;
+}
+
+.chatBar {
+  background: white;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding-top: 10px;
+  padding-bottom: 8px;
+}
+
+.chatBar input {
+  width: 100%;
+  box-sizing:border-box;
+  border: solid 1px #808080;
+  font-size: 16px;
+}
+
+.chatBar a {
+  color: black;
+  text-decoration: none;
+}
+
+.chatBar a:visited { color: black; }
+
+button { cursor: pointer; }
+
+.ServerPost {
+  color: #6666CC;
+}
+
+.NoticePost {
+  color: #FF00FF;
+}
+
+.NoticePost a { color: #00ACF1;}
+.NoticePost a:visited { color: #OOACF1; }
+
+.PlainPost {}
+.SelfPost {}
+.LinkPost {}
+
+.ImagePost {
+  width: 33%;
+  max-width: 480px;
+  margin: 16px 0 16px 16px;
+}
+
+.chat {
+  font-size: 18pt;
+}
+
+#userlist {
+  font-size: 18pt;
+}
+  </style>
+</head>
+<body>
+
+<div class="videoSpacer hide streaming disabled"><div class="aspect"></div></div>
+<div class="optionbarSpacer hide">
+  <img src="resources/svg/pic_off.svgz" width="24" height="24"></img>
+  <img src="resources/svg/sound_on.svgz" width="24" height="24"></img>
+</div>
+
+<div style="border: solid #808080; border-width: 0px 1px 0px 1px; margin: 0px 8px 0px 8px;">
+  <div class="userlist bordersBdisabled">
+    <div class="userlist bordersCdisabled" style="padding: 8px 8px 8px 8px;">
+      <div id="chat">
+        <div id="prelude"></div>
+
+        <center>
+          <div style="width: 50%;"><div class="aspect" style="padding: 84% 0 0 0;">
+            <img src="resources/svg/buraq.svgz" class="aspectContent"></img>
+          </div></div>
+          <div style="font-size: 3.5vw;">Welcome to <b>Montrosechat</b></div>
+        </center>
+
+        <div id="connectionWidget" style="text-align: center; font-size: 2em;">
+          <br/>
+          Please choose a name!
+          <br/>
+          <input id="nickInput" type="text" tabindex="1" style="font-size: .8em; border-radius: 8px;
+ margin: 0.5em 0 0.5em 0;"></input>
+          <br/>
+          <button id="connectButton" tabindex="2" style="font-size: .8em; border-radius: 8px; background: #00CCFF; color: white; padding: .25em;">Connect</button>
+          <br/>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="chatBar hide">
+  <input id="bad" type="text" disabled="disabled"/>
+  <br/>
+  <br/>
+  <a href="https://github.com/harrylime/montrosechat/issues">help</a>
+</div>
+
+<div id="videoArea">
+  <div class="videoSpacer streaming disabled"><div class="aspect"><video id="player" preload="none" controls playsinline></video></div></div>
+  <div class="optionbarSpacer">
+    <a id="soundButton" href="#" tabindex="4"><img src="resources/svg/sound_off.svgz" width="24" height="24"></img></a>
+    <a id="picButton" href="#" tabindex="5"><img src="resources/svg/pic_on.svgz" width="24" height="24"></img></a>
+    <a id="usersButton" href="#" tabindex="6" style="display: none;"><img src="resources/svg/users.svgz" width="24" height="24"></img></a>
+  </div>
+
+  <div class="outerCap">
+    <div class="userlist capDivAdisabled"><div class="userlist cap capAdisabled"></div></div>
+    <div class="userlist disabled" style="margin-left: 80%;"><div class="cap upperCap"></div></div>
+  </div>
+
+  <img width="208" src="resources/svg/buraq.svgz" style="position: absolute; right: -144px; margin-top: -120px;"></img>
+
+  <div id="userlist" class="userlist disabled" style="width: 20%; position: absolute; right: 0px;"></div>
+
+</div>
+
+<div id="inputArea">
+  <div class="outerCap">
+    <div class="userlist footer capDivAdisabled"><div class="userlist cap capAdisabled"></div></div>
+    <div class="userlist footer disabled" style="margin-left: 80%;"><div class="cap lowerCap"></div></div>
+  </div>
+
+  <div class="chatBar">
+    <input id="prompt" tabindex="3" type="text"/>
+    <br/>
+    <br/>
+    <a href="https://github.com/harrylime/montrosechat/issues" tabindex="7" id="help">help</a><span id="sounds" class="disabled"></span>
+  </div>
+  <a href="http://montrose.is" tabindex="8" target="_blank">
+    <img src="resources/svg/montrose_is.svgz" width="96" height="24" style="position: absolute; bottom: 8px; right: 8px;"></img>
+  </a>
+</div>
+
+<script type="text/javascript">
+if (navigator.userAgent.match(/Trident/) != null &&
+    navigator.userAgent.match(/Edge/) == null) {
+  Softener.softener = "&#173;";
+}
+var chan = "sgvy";
+var url = "" + document.location; 
+var urlFrags = url.split("#");
+if (urlFrags.length == 2) 
+  chan = urlFrags[1];
+var chat = new Chat(chan,window);
+</script>
+
+</body>
+</html>

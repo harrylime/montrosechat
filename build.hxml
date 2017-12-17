@@ -1,0 +1,11 @@
+-cp resources/hx
+
+--each
+
+Chat.hx
+-js resources/js/chat.js
+
+--next
+
+-x sound.ChatSounds
+-cmd rm sound.ChatSounds.n

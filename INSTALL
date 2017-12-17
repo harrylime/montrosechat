@@ -1,0 +1,17 @@
+To the directory serving the chat add:
+
+  AddType image/svg+xml svg svgz
+  AddEncoding gzip svgz
+ 
+And somewhere run:
+
+<Location /irc>
+  ProxyPass ws://172.17.0.13:8080
+  ProxyPassReverse ws://172.17.0.13:8080
+</Location>
+
+With appropriate paths (you'll probably need to modify Chat.hx)
+
+./websocketd --address=172.17.0.13 --port=8080 nc irc.montrose.is 6667
+
+or similar
