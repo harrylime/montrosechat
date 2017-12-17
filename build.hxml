@@ -4,6 +4,7 @@
 
 Chat.hx
 -js resources/js/chat.js
+-cmd mkdir -p resources/wav && mkdir -p resources/mp3 && mkdir -p resources/ogg
 
 --next
 
