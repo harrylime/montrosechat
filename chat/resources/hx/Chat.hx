@@ -429,10 +429,14 @@ class ToggleSound extends ToggleButton {
       websocket.send('TOPIC #${chan}\r');
       return;
     }
-    if (input.toLowerCase().indexOf("/me ") != -1) {
+    if (input.toLowerCase().indexOf("/me ") == 0) {
       var ctrlA = String.fromCharCode(1);
       websocket.send('PRIVMSG #${chan} :${ctrlA}ACTION ${input.substring(4)}${ctrlA}\r');
       new SelfPost('<i>* ${nick} ${input.substring(4).fix()}</i>',this,document);
+      return;
+    }
+    if (input.toLowerCase().indexOf("/") == 0) {
+      new ServerPost("Commands are: /me , /nick , /topic , and /quote .",this,document);
       return;
     }
     websocket.send('PRIVMSG #${chan} :${input}\r');
