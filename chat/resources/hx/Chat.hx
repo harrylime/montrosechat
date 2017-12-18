@@ -369,12 +369,6 @@ class ToggleSound extends ToggleButton {
       users();
     }
 
-    element = document.getElementById("help");
-    element.onclick = function(e) {
-      e.preventDefault();
-      help();
-    }
-
     connectButton = document.getElementById("connectButton");
     connectButton.onclick = function(e) {
       e.preventDefault();
@@ -731,9 +725,6 @@ class ToggleSound extends ToggleButton {
 
   public function bottomOut() {
     window.scrollTo(window.scrollX, document.body.scrollHeight);
-  }
-
-  private function help() {
   }
 
   private function users() {
