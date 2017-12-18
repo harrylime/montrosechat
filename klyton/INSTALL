@@ -1,0 +1,14 @@
+sudo dnf install haxe -y
+mkdir ~/haxelib && haxelib setup ~/haxelib
+haxelib update
+tar
+dnf -y install @Development-Tools
+dnf -y install gcc-c++
+haxelib install hxcpp
+dnf -y install inotify-tools
+dnf -y install vim
+dnf -y install nmap-ncat
+easy_install-3.6 --install-dir=/home/klyton/klyton/bin/py virtualenv
+/home/klyton/klyton/bin/py/virtualenv -p python3 --no-site-packages klyton
+source klyton/bin/activate
+pip3 install youtube-dl

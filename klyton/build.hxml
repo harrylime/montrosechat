@@ -1,0 +1,32 @@
+Klyton.hx
+-main Klyton
+-cpp src/klyton
+-cmd mkdir -p klyton/bin
+-cmd mkdir -p klyton/logs
+-cmd mkdir -p klyton/resources
+-cmd mkdir -p klyton/resources/keys
+-cmd mkdir -p klyton/resources/scripts
+-cmd mkdir -p klyton/resources/scripts/lamp
+-cmd mkdir -p klyton/config
+-cmd mkdir -p klyton/queues
+-cmd mkdir -p klyton/queues/klyton
+-cmd mkdir -p klyton/queues/urlinfo
+-cmd mkdir -p klyton/queues/weatherinfo
+-cmd mkdir -p klyton/pids
+-cmd mkdir -p klyton/tmp
+-cmd mkdir -p klyton/tells
+-cmd cp src/klyton/Klyton klyton/bin/.
+
+--next
+
+UrlInfo.hx
+-main UrlInfo
+-cpp src/urlinfo
+-cmd cp src/urlinfo/UrlInfo klyton/bin/.
+
+--next
+
+WeatherInfo.hx
+-main WeatherInfo
+-cpp src/weatherinfo
+-cmd cp src/weatherinfo/WeatherInfo klyton/bin/.
