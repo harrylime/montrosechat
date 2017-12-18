@@ -429,6 +429,10 @@ class ToggleSound extends ToggleButton {
       new SelfPost('<i>* ${nick} ${input.substring(4).fix()}</i>',this,document);
       return;
     }
+    if (input.toLowerCase().indexOf("/xyzzy") == 0) {
+      new ServerPost("Nothing happens.",this,document);
+      return;
+    }
     if (input.toLowerCase().indexOf("/") == 0) {
       new ServerPost("Commands are: /me , /nick , /topic , and /quote .",this,document);
       return;
