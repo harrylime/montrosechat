@@ -417,12 +417,16 @@ class ToggleSound extends ToggleButton {
 
   private function parse(input:String) {
     if (!connected) return;
-    if (input.toLowerCase().indexOf("/quote ") != -1) {
+    if (input.toLowerCase().indexOf("/quote ") == 0) {
       websocket.send('${input.substring(7)}\r');
       return;
     }
-    if (input.toLowerCase().indexOf("/nick ") != -1) {
+    if (input.toLowerCase().indexOf("/nick ") == 0) {
       websocket.send('NICK ${input.substring(6)}\r');
+      return;
+    }
+    if (input.toLowerCase().indexOf("/topic") == 0) {
+      websocket.send('TOPIC #${chan}\r');
       return;
     }
     if (input.toLowerCase().indexOf("/me ") != -1) {
