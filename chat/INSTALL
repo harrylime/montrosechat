@@ -1,17 +1,21 @@
-To the directory serving the chat add:
+Serve the directory containing this file via HTTP. The server must properly serve `.svgz` files with the `image/svg+xml` mime type. On Apache, this is accomplished by adding:
 
-  AddType image/svg+xml svg svgz
-  AddEncoding gzip svgz
+    AddType image/svg+xml svg svgz
+    AddEncoding gzip svgz
+
+To the appropriate `Directory` directive. The same server should reverse proxy an instance of `websocketd` tied to `nc`:
+
+    ./websocketd --address=127.0.0.1 --port=8080 nc irc.montrose.is 6667
  
-And somewhere run:
+Under Apache, this is done with a `Location` directive:
 
-<Location /irc>
-  ProxyPass ws://172.17.0.13:8080
-  ProxyPassReverse ws://172.17.0.13:8080
-</Location>
+    <Location /irc>
+      ProxyPass ws://127.0.0.1:8080
+      ProxyPassReverse ws://127.0.0.1:8080
+    </Location>
 
-With appropriate paths (you'll probably need to modify Chat.hx)
+If `/irc` isn't available, you will need to modify `Chat.hx` appropriately.
 
-./websocketd --address=172.17.0.13 --port=8080 nc irc.montrose.is 6667
+The client also needs the `/ip/` PHP script available on the same server (otherwise the IP's listed are likely to be inaccurate. See the `INSTALL` file in the `ip` directory.
 
-or similar
+Advanced features actually depend on the `klyton` IRC bot. See the `INSTALL` file in the `klyton` directory.

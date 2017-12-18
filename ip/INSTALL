@@ -1,3 +1,7 @@
-<Location /resources/php/ip>
-Header set Access-Control-Allow-Origin "*"
-</Location>
+After building, serve the `/resources/php/ip` directory over HTTP. If your main domain is cached by a CDN, you will want to use an uncached subdomain to reference the script. If you do this, you must have a permissive CORS policy. This is accomplished under Apache via:
+
+    <Location /resources/php/ip>
+      Header set Access-Control-Allow-Origin "*"
+    </Location>
+
+or similar. Don't forget to change the reference to "http://video.montrose.is/resources/php/ip/" in the chat client's `index.html` to the real value for your (sub)domain.

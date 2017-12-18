@@ -1,4 +1,20 @@
-inotifywait -e moved_to -m ~/klyton/queues/weatherinfo/ | ./WeatherInfo &
-inotifywait -e moved_to -m ~/klyton/queues/urlinfo/ | ./UrlInfo &
-./Klyton &
-inotifywait -e moved_to -m ~/klyton/queues/klyton/ | while read file; do echo "$file" | nc 127.0.0.1 36587; done &
+klyton uses inotifywait to achieve zero CPU idle times. The `WeatherInfo` and `UrlInfo` portions are launched separately:
+
+    inotifywait -e moved_to -m $PATHTO/klyton/queues/weatherinfo/ | ./WeatherInfo &
+    inotifywait -e moved_to -m $PATHTO/klyton/queues/urlinfo/ | ./UrlInfo &
+
+Where `$PATHTO` is the path to the `klyton` configuration directory.
+
+Next, launch klyton itself:
+
+    ./Klyton &
+
+To connect the the `WeatherInfo` and `UrlInfo` programs with klyton, first discover what port klyton is listening on:
+
+    cat $PATHTO/klyton/config/inotify_port
+
+And then launch a listening task referencing to that port number:
+
+    inotifywait -e moved_to -m $PATHTO/klyton/queues/klyton/ | while read file; do echo "$file" | nc 127.0.0.1 XXXXX; done &
+
+where XXXXX is number from `cat`ing the `inotify_port`.
