@@ -200,6 +200,7 @@ class LinkPost extends Post {
     a.href = url;
     a.target = "_blank";
     a.innerHTML = txt.fix();
+    a.setAttribute("class","chat");
     div.appendChild(a);
     div.setAttribute("class","LinkPost NoticePost chat");
     chat.chat.appendChild(div);
@@ -317,7 +318,7 @@ class ToggleSound extends ToggleButton {
 }
 
 @:expose class Chat {
-  public var version = "0.0.1";
+  public var version = "0.0.2";
   public var message:Null<SoundElement>;
   public var mention:Null<SoundElement>;
 
@@ -423,6 +424,16 @@ class ToggleSound extends ToggleButton {
       websocket.send('TOPIC #${chan}\r');
       return;
     }
+    if (input.toLowerCase().indexOf("/clear") == 0) {
+      var posts = document.getElementsByClassName("chat");
+      while(posts.length > 0) {
+        posts[0].parentNode.removeChild(posts[0]);
+        posts = document.getElementsByClassName("chat");
+      }
+      new SelfPost("<br/>",this,document);
+      new ServerPost("Cleared chat backlog.",this,document);
+      return;
+    }
     if (input.toLowerCase().indexOf("/me ") == 0) {
       var ctrlA = String.fromCharCode(1);
       websocket.send('PRIVMSG #${chan} :${ctrlA}ACTION ${input.substring(4)}${ctrlA}\r');
@@ -434,9 +445,10 @@ class ToggleSound extends ToggleButton {
       return;
     }
     if (input.toLowerCase().indexOf("/") == 0) {
-      new ServerPost("Commands are: /me , /nick , /topic , and /quote .",this,document);
+      new ServerPost("Commands are: /me , /nick , /topic , /clear , and /quote .",this,document);
       return;
     }
+    if (input.length < 1) return;
     websocket.send('PRIVMSG #${chan} :${input}\r');
     new SelfPost('<b>${nick}</b>: ${input.fix()}',this,document);
   }
@@ -479,6 +491,7 @@ class ToggleSound extends ToggleButton {
   }
 
   private function connect() {
+    new ServerPost('montrosechat version ${version}.',this,document);
     new ServerPost("Attempting to connect.",this,document);
     websocket = new WebSocket('ws://${document.location.host}/irc');
     websocket.onopen = onopen;
@@ -673,6 +686,8 @@ class ToggleSound extends ToggleButton {
   private function special(msg:Message):Bool {
     var payload = msg.command.args[msg.command.args.length-1];
 
+    if (payload.indexOf('#${chan}') == -1) return true;
+
     if (payload.indexOf("http://") == 0 ||
         payload.indexOf("https://") == 0) {
       return true;
@@ -696,12 +711,17 @@ class ToggleSound extends ToggleButton {
     }
 
     if (payload.indexOf("youtube ") == 0) {
+      var id = "";
       var frags = payload.split(" ");
       if (frags.length < 2) return true;
       var link = frags[2];
       frags = link.split("v=");
-      if (frags.length < 2) return true;
-      var img = 'http://i3.ytimg.com/vi/${frags[1]}/hqdefault.jpg';
+      if (frags.length > 1) id = frags[1];
+      if (id == "") frags = payload.split("youtu.be/");
+      if (id == "" && frags.length > 1) id = frags[1];
+      if (id == "") return true;
+      id = id.split("?")[0];
+      var img = 'http://i3.ytimg.com/vi/${id}/hqdefault.jpg';
       if (picToggle.state)
         new ImagePost(img,link,this,document);
       new LinkPost(msg,this,document);
