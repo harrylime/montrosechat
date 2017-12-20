@@ -228,7 +228,7 @@ class ImagePost extends Post {
     aspect.appendChild(a);
 
     var div = document.createElement("div");
-    div.setAttribute("class","ImagePost");
+    div.setAttribute("class","ImagePost chat");
     div.appendChild(aspect);
 
     chat.chat.appendChild(div);
@@ -686,19 +686,19 @@ class ToggleSound extends ToggleButton {
   private function special(msg:Message):Bool {
     var payload = msg.command.args[msg.command.args.length-1];
 
-    if (payload.indexOf('#${chan}') == -1) return true;
-
     if (payload.indexOf("http://") == 0 ||
         payload.indexOf("https://") == 0) {
       return true;
     }
 
     if (payload.indexOf("link ") == 0) {
+      if (payload.indexOf('#${chan}') == -1) return true;
       new LinkPost(msg,this,document);
       return true;
     }
 
     if (payload.indexOf("image ") == 0) {
+      if (payload.indexOf('#${chan}') == -1) return true;
       if (!picToggle.state) {
         new LinkPost(msg,this,document);
         return true;
@@ -711,13 +711,14 @@ class ToggleSound extends ToggleButton {
     }
 
     if (payload.indexOf("youtube ") == 0) {
+      if (payload.indexOf('#${chan}') == -1) return true;
       var id = "";
       var frags = payload.split(" ");
       if (frags.length < 2) return true;
       var link = frags[2];
       frags = link.split("v=");
       if (frags.length > 1) id = frags[1];
-      if (id == "") frags = payload.split("youtu.be/");
+      if (id == "") frags = link.split("youtu.be/");
       if (id == "" && frags.length > 1) id = frags[1];
       if (id == "") return true;
       id = id.split("?")[0];
@@ -729,10 +730,12 @@ class ToggleSound extends ToggleButton {
     }
 
     if (payload.indexOf("stream ") == 0) {
+      if (payload.indexOf('#${chan}') == -1) return true;
       return true;
     }
 
     if (payload.indexOf("script ") == 0) {
+      if (payload.indexOf('#${chan}') == -1) return true;
       return true;
     }
 
