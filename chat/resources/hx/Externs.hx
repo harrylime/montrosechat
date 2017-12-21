@@ -80,6 +80,9 @@ extern class InputElement extends Element {
 }
 
 extern class VideoElement extends Element {
+  public var preload:String;
+  public var controls:String;
+  public var playsinline:String;
   public function play():Void;
   public function stop():Void;
 }
