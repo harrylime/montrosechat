@@ -318,7 +318,7 @@ class ToggleSound extends ToggleButton {
 }
 
 @:expose class Chat {
-  public var version = "0.0.4";
+  public var version = "0.0.5";
   public var message:Null<SoundElement>;
   public var mention:Null<SoundElement>;
 
@@ -731,6 +731,32 @@ class ToggleSound extends ToggleButton {
 
     if (payload.indexOf("stream ") == 0) {
       if (payload.indexOf('#${chan}') == -1) return true;
+      var frags = payload.split(" ");
+      if (frags.length < 3) return true;
+      if (frags[1].indexOf('#${chan}') == -1) return true;
+      var player:VideoElement = cast document.getElementById("player");
+      player.pause();
+      player.parentNode.innerHTML = '<video id="player" class="aspectContent" preload="none" autoplay="true" controls playsinline></video>';
+      player = cast document.getElementById("player");
+      var url = frags[2];
+      if (url.indexOf("stop") == 0) {
+        disable("streaming");
+      } else {
+        enable("streaming");
+      }
+      if(Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(player);
+        hls.on(Hls.Events.MANIFEST_PARSED,function() {
+          player.play();
+        });
+      } else {
+        var src:SourceElement = cast document.createElement("source");
+        src.type = "application/x-mpegURL";
+        src.src = url;
+        player.appendChild(src);
+      }
       return true;
     }
 

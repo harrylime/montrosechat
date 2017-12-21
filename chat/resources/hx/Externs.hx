@@ -30,7 +30,9 @@ extern class Document {
 }
 
 extern class Hls {
+  public function new();
   public static function isSupported():Bool;
+  public static var Events:HLSEventCollection;
   public function loadSource(url:String):Void;
   public function attachMedia(video:VideoElement):Void;
   public function on(e:HLSEvent,f:Void -> Void):Void;
@@ -80,11 +82,8 @@ extern class InputElement extends Element {
 }
 
 extern class VideoElement extends Element {
-  public var preload:String;
-  public var controls:String;
-  public var playsinline:String;
   public function play():Void;
-  public function stop():Void;
+  public function pause():Void;
 }
 
 extern class BodyElement extends Element {
