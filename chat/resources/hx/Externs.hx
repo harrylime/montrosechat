@@ -29,6 +29,19 @@ extern class Document {
   public function createTextNode(typ:String):Element;
 }
 
+extern class Hls {
+  public static function isSupported():Bool;
+  public function loadSource(url:String):Void;
+  public function attachMedia(video:VideoElement):Void;
+  public function on(e:HLSEvent,f:Void -> Void):Void;
+}
+
+extern class HLSEvent {}
+
+extern class HLSEventCollection {
+  public var MANIFEST_PARSED:HLSEvent;
+}
+
 extern class Element {
   public var id:String;
   public var parentNode:Element;
@@ -64,6 +77,11 @@ extern class SourceElement extends Element {
 
 extern class InputElement extends Element {
   public var value:String;
+}
+
+extern class VideoElement extends Element {
+  public function play():Void;
+  public function stop():Void;
 }
 
 extern class BodyElement extends Element {
