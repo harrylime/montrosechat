@@ -318,7 +318,7 @@ class ToggleSound extends ToggleButton {
 }
 
 @:expose class Chat {
-  public var version = "0.0.3";
+  public var version = "0.0.4";
   public var message:Null<SoundElement>;
   public var mention:Null<SoundElement>;
 
@@ -437,7 +437,7 @@ class ToggleSound extends ToggleButton {
     if (input.toLowerCase().indexOf("/me ") == 0) {
       var ctrlA = String.fromCharCode(1);
       websocket.send('PRIVMSG #${chan} :${ctrlA}ACTION ${input.substring(4)}${ctrlA}\r');
-      new SelfPost('<i>* ${nick} ${input.substring(4).fix()}</i>',this,document);
+      new SelfPost('<i class="self">* ${nick} ${input.substring(4).fix()}</i>',this,document);
       return;
     }
     if (input.toLowerCase().indexOf("/xyzzy") == 0) {
@@ -450,7 +450,7 @@ class ToggleSound extends ToggleButton {
     }
     if (input.length < 1) return;
     websocket.send('PRIVMSG #${chan} :${input}\r');
-    new SelfPost('<b>${nick}</b>: ${input.fix()}',this,document);
+    new SelfPost('<span class="self"><b>${nick}</b>:</span> ${input.fix()}',this,document);
   }
 
   public function playMessage() {
