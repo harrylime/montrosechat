@@ -318,7 +318,7 @@ class ToggleSound extends ToggleButton {
 }
 
 @:expose class Chat {
-  public var version = "0.0.6";
+  public var version = "0.0.7";
   public var message:Null<SoundElement>;
   public var mention:Null<SoundElement>;
 
@@ -741,6 +741,7 @@ class ToggleSound extends ToggleButton {
       var url = frags[2];
       if (url.indexOf("stop") == 0) {
         disable("streaming");
+        return true;
       } else {
         enable("streaming");
       }
@@ -757,6 +758,7 @@ class ToggleSound extends ToggleButton {
         src.src = url;
         player.appendChild(src);
       }
+      bottomOut();
       return true;
     }
 
