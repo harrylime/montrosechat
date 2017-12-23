@@ -736,7 +736,7 @@ class ToggleSound extends ToggleButton {
       if (frags[1].indexOf('#${chan}') == -1) return true;
       var player:VideoElement = cast document.getElementById("player");
       player.pause();
-      player.parentNode.innerHTML = '<video id="player" class="aspectContent" preload="none" autoplay="true" controls playsinline></video>';
+      player.parentNode.innerHTML = '<video id="player" class="aspectContent" width="848" height="480" preload="none" autoplay="true" controls playsinline></video>';
       player = cast document.getElementById("player");
       var url = frags[2];
       if (url.indexOf("stop") == 0) {
