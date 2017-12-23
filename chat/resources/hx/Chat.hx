@@ -741,6 +741,7 @@ class ToggleSound extends ToggleButton {
       var url = frags[2];
       if (url.indexOf("stop") == 0) {
         disable("streaming");
+        bottomOut();
         return true;
       } else {
         enable("streaming");
