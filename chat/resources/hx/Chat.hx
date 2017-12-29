@@ -309,7 +309,13 @@ class ToggleSound extends ToggleButton {
         sounds.appendChild(sound);
       }
       chat.message = cast document.getElementById("messageSound");
+      chat.message.load();
+      chat.message.volume = 0.0;
+      chat.message.play();
       chat.mention = cast document.getElementById("mentionSound");
+      chat.mention.load();
+      chat.mention.volume = 0.0;
+      chat.mention.play();
     }
 
     super.toggle();
@@ -456,12 +462,14 @@ class ToggleSound extends ToggleButton {
   public function playMessage() {
     if (!soundToggle.state) return;
     message.load();
+    message.volume = 1.0;
     message.play();
   }
 
   public function playMention() {
     if (soundToggle.state) {
       mention.load();
+      mention.volume = 1.0;
       mention.play();
     }
   }

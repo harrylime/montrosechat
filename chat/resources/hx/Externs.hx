@@ -68,6 +68,7 @@ extern class LinkElement extends Element {
 
 extern class SoundElement extends Element {
   public var preload:String;
+  public var volume:Float;
   public function load():Void;
   public function play():Void;
 }
