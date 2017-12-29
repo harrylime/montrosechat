@@ -324,7 +324,7 @@ class ToggleSound extends ToggleButton {
 }
 
 @:expose class Chat {
-  public var version = "0.0.7";
+  public var version = "0.0.8";
   public var message:Null<SoundElement>;
   public var mention:Null<SoundElement>;
 
