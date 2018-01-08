@@ -215,11 +215,11 @@ class ImagePost extends Post {
     var img:ImageElement = cast document.createElement("img");
     img.src = src;
     img.setAttribute("class","aspectContent");
+    img.setAttribute("style","margin: auto;"); //temporary? fix
 
     var a:LinkElement = cast document.createElement("a");
     a.href = link;
     a.target = "_blank";
-    img.setAttribute("class","aspectContent");
     a.appendChild(img);
 
     var aspect = document.createElement("div");
@@ -324,7 +324,7 @@ class ToggleSound extends ToggleButton {
 }
 
 @:expose class Chat {
-  public var version = "0.0.8";
+  public var version = "0.0.9";
   public var message:Null<SoundElement>;
   public var mention:Null<SoundElement>;
 
